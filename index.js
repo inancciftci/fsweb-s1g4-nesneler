@@ -19,6 +19,12 @@ const serpmeKahvalti = {
 
 function MenuElemaniOlustur(isim, fiyat, kategori) {
   return { isim: isim, fiyat: fiyat, kategori: kategori };
+
+  // const yeniEleman = {};
+  // yeniEleman.isim=isim;
+  // yeniEleman.fiyat=fiyat;
+  // yeniEleman.kategori=kategori;
+  // return yeniEleman;
 }
 // console.log(MenuElemaniOlustur("Mozzarella Sticks", 15, "Aperatif"));
 
@@ -31,9 +37,10 @@ function MenuElemaniOlustur(isim, fiyat, kategori) {
 	
 	Örnek: MenuElemaniOlustur("Karışık Pizza",5,"Pizzalar") şunu döndürür: {isim:"Karışık Pizza",fiyat:5,kategori:"Pizzalar"}
 */
+
 const omlet = MenuElemaniOlustur("Omlet", 5, "Kahvaltı");
-const hellim = MenuElemaniOlustur("Hellim", 12, "Kahvaltı");
-const nugget = MenuElemaniOlustur("Nugget", 10, "Aperatif");
+const sogusTabagi = MenuElemaniOlustur("Söğüş Tabağı", 12, "Kahvaltı");
+const mozorella = MenuElemaniOlustur("Mozzarella Sticks", 10, "Aperatif");
 
 // console.log(nugget);
 // console.log(omlet);
@@ -60,7 +67,7 @@ const burger = {
       return this.fiyat * 0.75;
     } else if (indirimTuru === "öğrenci") {
       return this.fiyat * 0.75;
-    } else if (indirimTuru === "diğer") {
+    } else {
       return this.fiyat * 0.9;
     }
   },
@@ -119,6 +126,12 @@ const degerlendirmeler = [
 // console.log(degerlendirmeler[5].geribildirim);
 // console.log(degerlendirmeler[5]['geribildirim']);
 
+// for (let item of degerlendirmeler) {
+//   if (item.isim === "Ahmet") {
+//     console.log(item.geribildirim);
+//   }
+// }
+
 /*  Görev 4 (ototest yok):  
 	Reyna'nın geribildirimi girilmemiş! Aşağıdakileri uygulayın: (fonksiyona gerek yok) 
 	1. Bu geribildirimi Reyna'nın değerlendirmesine ekleyin - "bu mekan bir harika dostum, yine de garsonun gülümsememesinden puan kırdım"
@@ -128,6 +141,13 @@ const degerlendirmeler = [
 // degerlendirmeler[7]["geribildirim"] =
 //   "bu mekan bir harika dostum, yine de garsonun gülümsememesinden puan kırdım";
 // console.log(degerlendirmeler[7]['geribildirim']);
+
+// for (let item of degerlendirmeler) {
+//   if (item.isim === "Reyna") {
+//     item.geribildirim =
+//       "bu mekan bir harika dostum, yine de garsonun gülümsememesinden puan kırdım";
+//   }
+// }
 
 /*  Görev 5: 
 	isim, puan, geribildirim'i içeren bir değerlendirme nesnesi oluşturup, yeni değerlendirmeyi mevcut dizinin(array) sonuna ekleyip sonuç dizisini döndüren bir fonksiyon tanımlayın. 
@@ -140,10 +160,10 @@ const degerlendirmeler = [
 	4. Güncellenmiş diziyi döndürecek
 */
 
-function DegerlendirmeEkle(degerlendirmeler, isim, puan, geribildirim) {
-  const yeniDegerlendirme = { isim, puan, geribildirim };
-  degerlendirmeler.push(yeniDegerlendirme);
-  return degerlendirmeler;
+function DegerlendirmeEkle(arr, isim, puan, geribildirim) {
+  const yeniYorum = { isim, puan, geribildirim };
+  arr.push(yeniYorum);
+  return arr;
 }
 
 /*  Görev 6: 
@@ -199,14 +219,14 @@ function SonDegerlendirmeyiAl(arr) {
 
 function PuanaGoreDegerlendirmeAl(arr, score) {
   const filtrelenmisDegerlendirmeler = [];
-
   for (let item of arr) {
-    if (item.puan === score || (item.puan >= score && item.puan < 5)) {
+    if (item.puan >= score && item.puan < score + 1) {
       filtrelenmisDegerlendirmeler.push(item);
     }
   }
   return filtrelenmisDegerlendirmeler;
 }
+
 // console.log(PuanaGoreDegerlendirmeAl(degerlendirmeler, 4));
 
 /*  BONUS 2:    
@@ -219,7 +239,7 @@ function PuanaGoreDegerlendirmeAl(arr, score) {
 function UzunDegerlendirmeleriAl(degerlendirmeler) {
   const yeniDizi = [];
   for (let item of degerlendirmeler) {
-    if (item.geribildirim.trim().split(" ").length >= 15) {
+    if (item.geribildirim.split(" ").length > 15) {
       yeniDizi.push(item);
     }
   }
@@ -227,13 +247,6 @@ function UzunDegerlendirmeleriAl(degerlendirmeler) {
 }
 
 // console.log(UzunDegerlendirmeleriAl(degerlendirmeler));
-
-// word counting deneme (trim & split)
-// kelime arasında ekstra white space olursa -> .replace(/\s+/g,' ').trim()
-
-// console.log("   wtf is going on     ".trim());
-// console.log("   wtf is going on     ".trim().split(" "));
-// console.log("   wtf is going on     ".trim().split(" ").length);
 
 /*  BONUS 3:  
 	Bu ek görevde degerlendirmeler dizisi kullanılmayacak!  Bu görevde kendi nesnenizi yaratmanız gerekmektedir.
@@ -252,7 +265,20 @@ function UzunDegerlendirmeleriAl(degerlendirmeler) {
 	Bu 110 döndürmelidir çünkü başlangıç kilometre sayacını 10 olarak tanımladık ve 100 km arabayı sürdük.
 */
 
-function arabaYapici(kmHesapla) {}
+function arabaYapici(yeniKm) {
+  const araba = {
+    kmHesapla: yeniKm,
+    surus: function (mesafe) {
+      this.kmHesapla += mesafe;
+      return this.kmHesapla;
+    },
+  };
+  return araba;
+}
+const araba1 = arabaYapici(10);
+const denemeKm = araba1.surus(100);
+
+console.log("Araba kilometre sayacı:" + denemeKm);
 
 /*  Buradan aşağıdaki kodları değiştirmeyin lütfen */
 function sa() {
